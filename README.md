@@ -1,19 +1,19 @@
 # 女娲 · nuwa-openclaw-skill
 
-> *蒸馏任何人的思维方式，生成可运行的 AI 人格。*
+> *把任何人的思维方式变成你的 AI 顾问。*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-Skill-blue)](https://github.com/openclaw/openclaw)
 
-**女娲帮你蒸馏任何人的思维方式——心智模型、决策启发式、表达DNA——让芒格、费曼、乔布斯都给你打工。**
+给女娲一个名字，它会调动 6 个 Agent 并行调研，交叉验证，对抗性测试，最后交付一个可以直接激活的 Perspective Skill。整个过程全自动，你只需要等。
 
-[花叔的 nuwa-skill](https://github.com/alchaincyf/nuwa-skill) 证明了蒸馏一个人的思维方式是完全可行的。这个项目把方法论适配到了 [OpenClaw](https://github.com/openclaw/openclaw) 平台，利用 OpenClaw 的多 Agent 并行能力，实现六路调研 → 双轨提炼 → 交叉验证 → 对抗性测试的全自动流水线。
+本项目基于[花叔的 nuwa-skill](https://github.com/alchaincyf/nuwa-skill) 方法论，针对 [OpenClaw](https://github.com/openclaw/openclaw) 平台重新设计，充分利用 OpenClaw 的多 Agent 并行调度能力。
 
-[效果示例](#效果示例) · [安装](#安装) · [女娲蒸馏了什么](#女娲蒸馏了什么) · [工作原理](#工作原理) · [English](#english)
+[看看效果](#效果) · [装起来](#安装) · [提取什么](#提取什么) · [怎么跑的](#流水线) · [English](#english)
 
 ---
 
-## 效果示例
+## 效果
 
 ```
 用户 ❯ 蒸馏芒格
@@ -23,7 +23,7 @@
       验证报告：方向一致性 3/3 ✅ | 反向诱导 ✅ | 边界测试 ✅ | 辨识度 ✅
 ```
 
-生成的 Skill 激活后：
+激活后：
 
 ```
 用户 ❯ 用芒格的视角帮我分析这个投资决策
@@ -32,103 +32,107 @@
       大多数人急着找买入理由，聪明人先排除愚蠢。
 ```
 
-这不是角色扮演复读名人语录——是用他们的**认知框架**帮你分析问题。
+不是在背名人语录。Skill 内化了芒格的「逆向思维」框架，拿到新问题会自动用这个框架分析。
 
 ---
 
 ## 安装
 
-### 方式一：让你的 OpenClaw Agent 自己装
+### 方式一：让 Agent 自己装
 
-直接跟你的 Agent 说：
+跟你的 OpenClaw Agent 说：
 
 > "帮我安装 nuwa skill，repo 地址 https://github.com/kylefu8/nuwa-openclaw-skill"
 
-Agent 会自动 clone 并安装到正确的 skills 目录。
+Agent 会自己 clone 并放到正确位置。
 
-### 方式二：手动安装
+### 方式二：手动
 
 ```bash
 git clone https://github.com/kylefu8/nuwa-openclaw-skill.git
 cp -r nuwa-openclaw-skill/ ~/.openclaw/workspace-<agent>/skills/nuwa
 ```
 
-把 `<agent>` 替换成你的 Agent 名称（如 `kira`、`diva`）。
+`<agent>` 换成你的 Agent 名（如 `kira`、`diva`）。
 
-### 使用
-
-安装后直接跟 Agent 说：
+### 用法
 
 ```
 > 蒸馏纳瓦尔
 > 造人：张一鸣
 > 女娲
-> 我想提升决策质量（女娲会自动推荐最合适的人选）
+> 我想提升决策质量（女娲会推荐最合适的人选）
 ```
 
-女娲全自动完成调研、提炼、验证，约 30-60 分钟交付完整 Skill。
+约 30-60 分钟交付完整 Skill，无需人工干预。
 
 ---
 
-## 女娲蒸馏了什么
+## 提取什么
 
-蒸馏各领域最强的人，需要提取比日常工作习惯更深的东西。女娲提取五层：
+女娲不是在做人物百科，而是拆解一个人**独有的思考方式**：
 
-| 层次 | 说明 |
-|------|------|
-| **怎么说话** | 表达DNA——语气、节奏、用词偏好 |
-| **怎么想** | 心智模型、认知框架 |
-| **怎么判断** | 决策启发式——"如果X则Y" |
-| **什么不做** | 反模式、价值观底线 |
-| **知道局限** | 诚实边界——做不到什么写清楚 |
+| 层次 | 提取内容 |
+|------|---------|
+| **表达** | 语气、节奏、用词习惯——怎么说话 |
+| **认知** | 心智模型、分析框架——怎么想问题 |
+| **决策** | 启发式规则——面对选择时的本能反应 |
+| **禁区** | 价值观底线、反模式——什么事打死不做 |
+| **边界** | 局限声明——哪些东西蒸馏不了，写清楚 |
 
-工作习惯可以靠流程文档传递，但让芒格和马斯克面对同一个问题做出不同判断的，是认知框架。女娲提取的是认知操作系统。
-
-### 诚实边界
-
-每个 Skill 都明确标注做不到什么：
-
-- 蒸馏不了直觉——框架能提取，灵感不能
-- 捕捉不了突变——截止到调研时间的快照
-- 公开表达 ≠ 真实想法——只能基于公开信息
-
-**一个不告诉你局限在哪的 Skill，不值得信任。**
+每个生成的 Skill 都会标注自己的局限：蒸馏不了直觉，捕捉不了观点突变，公开表达也不等于真实想法。不标局限的 Skill 不可信。
 
 ---
 
-## 工作原理
+## 流水线
 
-输入一个名字后，女娲做四件事：
+输入一个名字，女娲跑四个阶段：
 
-**1. 六路并行调研** — 著作、播客/访谈、社交媒体、批评者视角、决策记录、人生时间线，6 个 sub-agent 同时跑，各自存档。
+### 1. 六路并行调研
 
-**2. 双轨提炼 + 交叉验证** — 两个独立 sub-agent 各自提炼心智模型，然后交叉比对。都认定的 → 高置信收录；只有一方认定 → 降级为推测；矛盾 → 并列呈现。
+著作、播客/访谈、社交媒体、批评者视角、关键决策、人生时间线——6 个 sub-agent 同时出发，各自产出带来源标注的调研报告。
 
-**3. 三重验证筛选** — 一个观点要被收录为心智模型，必须：
+### 2. 双轨提炼 + 交叉验证
 
-| 验证 | 要求 |
+两个独立的 sub-agent 分别从 6 份报告中提炼心智模型。然后交叉比对：
+- 两边都认定 → 高置信收录
+- 只有一边认定 → 降为推测
+- 矛盾 → 并列呈现，不强行统一
+
+### 3. 三重验证
+
+一个观点要升级为「心智模型」，必须同时满足：
+
+| 测试 | 标准 |
 |------|------|
-| **跨域复现** | 在 2+ 个不同领域出现过 |
-| **生成力** | 能推断对新问题的立场 |
-| **排他性** | 不是所有聪明人都这么想 |
+| **跨域复现** | 在 2+ 个不同领域都出现过 |
+| **预测力** | 能推断此人对新问题的立场 |
+| **辨识度** | 不是通用智慧，而是此人特有的 |
 
-三个都过 → 心智模型。1-2 个过 → 降级为启发式。0 个 → 丢弃。
+全过 → 心智模型。过 1-2 个 → 降为启发式。全没过 → 丢弃。
 
-**4. 对抗性验证** — 方向一致性测试（对比已知立场）、反向诱导（用反对观点试探）、边界测试（超出专长领域）、辨识度测试（匿名化后能否认出）。不通过自动回炉，最多重试 2 次。
+### 4. 对抗性验证
 
-### 搜索工具四级降级
+- **方向一致性**：拿此人公开回答过的问题测试，Skill 的回答方向得对
+- **反向诱导**：用对立观点试探，不能轻易被带跑
+- **边界测试**：问超出专长的问题，应表现出合理的不确定
+- **辨识度测试**：匿名化后让人猜是谁，猜不出说明特征不够鲜明
+
+不通过自动回炉重做，最多 2 次。
+
+### 搜索降级策略
 
 | 优先级 | 工具 | 说明 |
 |--------|------|------|
-| 1 | Tavily | AI 优化搜索，速度最快 |
-| 2 | ddgs + trafilatura | 免费，无 API key |
-| 3 | Browser 自动化 | JS 渲染页面、需要登录态 |
-| 4 | 模型知识 | 兜底，标注"无外部验证" |
+| 1 | Tavily | AI 优化搜索 |
+| 2 | ddgs + trafilatura | 免费方案 |
+| 3 | Browser 自动化 | JS 渲染 / 需登录的页面 |
+| 4 | 模型自身知识 | 兜底，标注「无外部验证」 |
 
 ### 知名度自适应
 
-- **知名人物**（一手来源 ≥10）：标准 Skill（~4,500 tokens）
-- **小众人物**（一手来源 <10）：扩展版 Skill + 关键原文档案（~8,000-10,000 tokens），确保模型即使不认识此人也能准确还原
+- **知名人物**（一手来源 ≥10）：标准 Skill，约 4,500 tokens
+- **小众人物**（一手来源 <10）：加挂关键原文档案，约 8,000-10,000 tokens，保证模型不认识此人也能还原
 
 ---
 
@@ -159,7 +163,7 @@ nuwa-openclaw-skill/
 ├── references/
 │   ├── extraction-framework.md       # 提炼方法论
 │   ├── skill-template.md             # 生成 Skill 的模板
-│   └── perspectives-index.md         # 已蒸馏人物索引
+│   └── perspectives-index.md         # 已蒸馏人物索引（模板）
 └── scripts/
     └── search.sh                     # 兜底搜索脚本 (ddgs + trafilatura)
 ```
@@ -168,32 +172,32 @@ nuwa-openclaw-skill/
 
 - [OpenClaw](https://github.com/openclaw/openclaw) Agent 运行环境
 - 联网（调研阶段需要）
-- Python 3 + `ddgs` + `trafilatura`（搜索兜底脚本会自动安装）
+- Python 3 + `ddgs` + `trafilatura`（搜索脚本会自动安装依赖）
 
 ---
 
 ## 致谢
 
-本项目受 [nuwa-skill](https://github.com/alchaincyf/nuwa-skill) 启发，感谢 [花叔 (Huashu)](https://github.com/alchaincyf) 开源的原版女娲方法论。本项目将其适配到 [OpenClaw](https://github.com/openclaw/openclaw) 平台，增加了多 Agent 并行调研、双轨交叉验证和对抗性测试。
+方法论源自 [nuwa-skill](https://github.com/alchaincyf/nuwa-skill)，感谢 [花叔 (Huashu)](https://github.com/alchaincyf) 的开源。我们在此基础上为 OpenClaw 重新设计了并行调研、双轨验证和对抗性测试机制。
 
 ## 许可证
 
-MIT — 随便用，随便改，随便造。
+MIT
 
 ---
 
 ## English
 
-> *"Distill anyone's thinking into a runnable AI persona."*
+> *Turn anyone's way of thinking into your AI advisor.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-Skill-blue)](https://github.com/openclaw/openclaw)
 
-**Nuwa distills anyone's thinking — mental models, decision heuristics, expression DNA — so Munger, Feynman, and Jobs can work for you.**
+Give Nuwa a name. It dispatches 6 agents to research in parallel, cross-validates findings through dual-track extraction, runs adversarial tests, and delivers a ready-to-activate Perspective Skill. Fully automated.
 
-[nuwa-skill](https://github.com/alchaincyf/nuwa-skill) by Huashu proved that distilling how someone thinks is entirely viable. This project adapts the methodology for [OpenClaw](https://github.com/openclaw/openclaw), leveraging its multi-agent parallelism: 6-way research → dual-track extraction → cross-validation → adversarial testing, fully automated.
+Built on the methodology from [nuwa-skill](https://github.com/alchaincyf/nuwa-skill) by [Huashu](https://github.com/alchaincyf), redesigned for [OpenClaw](https://github.com/openclaw/openclaw)'s multi-agent architecture.
 
-[Examples](#examples) · [Install](#install) · [What It Extracts](#what-nuwa-extracts) · [How It Works](#how-it-works-1)
+[Examples](#examples) · [Install](#install) · [What It Extracts](#what-it-extracts) · [Pipeline](#pipeline)
 
 ---
 
@@ -207,7 +211,7 @@ Nuwa ❯ [Launching 6 parallel research agents...]
        Validation: direction alignment 3/3 ✅ | reverse induction ✅ | boundary ✅ | distinctiveness ✅
 ```
 
-After activating the generated Skill:
+After activation:
 
 ```
 User ❯ Use Munger's perspective to analyze this investment
@@ -217,162 +221,99 @@ Munger ❯ Invert, always invert. If this investment were guaranteed to lose
          Most people rush to find reasons to buy. Smart people eliminate stupidity first.
 ```
 
-This isn't role-playing or parroting quotes — it's analyzing your problem through their **cognitive frameworks**.
+Not parroting quotes. The Skill internalized Munger's "inversion" framework and applies it to your specific problem.
 
 ---
 
 ### Install
 
-**Option 1: Let your OpenClaw agent install it**
-
-Just tell your agent:
+**Option 1: Let your agent handle it**
 
 > "Install nuwa skill from https://github.com/kylefu8/nuwa-openclaw-skill"
 
-The agent will clone and install it to the correct skills directory.
-
-**Option 2: Manual install**
+**Option 2: Manual**
 
 ```bash
 git clone https://github.com/kylefu8/nuwa-openclaw-skill.git
 cp -r nuwa-openclaw-skill/ ~/.openclaw/workspace-<agent>/skills/nuwa
 ```
 
-Replace `<agent>` with your agent name (e.g. `kira`, `diva`).
+Replace `<agent>` with your agent name.
 
 ### Usage
-
-After installation, just tell your agent:
 
 ```
 > Distill Naval Ravikant
 > Build a Steve Jobs perspective skill
 > Nuwa
-> I want to improve my decision-making (Nuwa recommends the best thinker for you)
+> I want to improve my decision-making (Nuwa recommends the best fit)
 ```
 
-Nuwa handles everything autonomously — research, extraction, validation — and delivers a complete skill in 30-60 minutes.
+30-60 minutes to a complete Skill, no manual steps.
 
 ---
 
-### What Nuwa Extracts
+### What It Extracts
 
-Distilling the best minds requires extracting something deeper than daily work habits. Nuwa extracts five layers:
+Nuwa doesn't build a biography. It reverse-engineers **how someone uniquely thinks**:
 
-| Layer | Description |
-|-------|-------------|
-| **How they speak** | Expression DNA — tone, rhythm, vocabulary |
-| **How they think** | Mental models, cognitive frameworks |
-| **How they decide** | Decision heuristics — "if X then Y" |
-| **What they refuse** | Anti-patterns, value boundaries |
-| **What they can't do** | Honesty boundaries — limitations stated clearly |
+| Layer | What's extracted |
+|-------|-----------------|
+| **Expression** | Tone, rhythm, vocabulary patterns |
+| **Cognition** | Mental models, analytical frameworks |
+| **Decision** | Heuristic rules — instinctive reactions to choices |
+| **Boundaries** | Values, anti-patterns — what they'd never do |
+| **Limitations** | Honesty declaration — what the Skill can't capture |
 
-Work habits transfer through process docs. But what makes Munger and Musk reach different conclusions on the same problem is cognitive architecture. Nuwa extracts the cognitive operating system.
-
-#### Honesty Boundaries
-
-Every Skill explicitly states what it can't do:
-
-- Can't distill intuition — frameworks yes, inspiration no
-- Can't capture change — it's a snapshot as of research date
-- Public expression ≠ private thought — based on public information only
-
-**A Skill that doesn't tell you its limitations isn't worth trusting.**
+Every generated Skill states its limitations upfront: can't distill intuition, can't track evolving views, public speech ≠ private thought.
 
 ---
 
-### How It Works
+### Pipeline
 
-After receiving a name, Nuwa does four things:
+Four stages after receiving a name:
 
-**1. Six-way parallel research** — Books, podcasts/interviews, social media, critics, key decisions, life timeline. 6 sub-agents run simultaneously, each producing a sourced report.
+**1. Six-way parallel research** — Books, podcasts, social media, critics, key decisions, life timeline. 6 sub-agents run simultaneously, each producing sourced reports.
 
-**2. Dual-track extraction + cross-validation** — 2 independent sub-agents each extract mental models from all 6 research reports, then cross-compare. Both agree → high confidence. Only one → downgraded to speculative. Contradiction → both views presented.
+**2. Dual-track extraction + cross-validation** — 2 independent sub-agents extract mental models from all research, then compare. Both agree → high confidence. One-sided → speculative. Contradicting → both views preserved.
 
-**3. Triple verification** — A claim becomes a "mental model" only if it passes all three:
+**3. Triple verification** — A claim becomes a "mental model" only if it shows cross-domain recurrence (2+ domains), generative power (predicts stances on new problems), and exclusivity (distinctive, not generic). Partial pass → heuristic. No pass → discarded.
 
-| Test | Requirement |
-|------|-------------|
-| **Cross-domain recurrence** | Appears in 2+ different domains |
-| **Generative power** | Can predict their stance on new problems |
-| **Exclusivity** | Not generic wisdom — distinctive to this person |
+**4. Adversarial testing** — Direction alignment against known positions, reverse induction with opposing views, boundary probing outside expertise, anonymized distinctiveness check. Failures trigger auto-retry (up to 2 rounds).
 
-Pass all three → mental model. Pass 1-2 → downgraded to heuristic. Pass 0 → discarded.
+#### Search Cascade
 
-**4. Adversarial validation** — Direction alignment (compare against known positions), reverse induction (test with opposing views), boundary testing (questions outside their expertise), distinctiveness testing (can you identify who it is anonymously?). Failures trigger auto-retry, up to 2 rounds.
+Tavily → ddgs + trafilatura → browser automation → model knowledge (each level is a fallback).
 
-#### Search Tool Cascade
+#### Adaptation by Notoriety
 
-| Priority | Tool | Description |
-|----------|------|-------------|
-| 1 | Tavily | AI-optimized search, fastest |
-| 2 | ddgs + trafilatura | Free, no API key needed |
-| 3 | Browser automation | JS-rendered / login-required pages |
-| 4 | Model knowledge | Fallback, labeled as unverified |
-
-#### Celebrity vs. Niche Adaptation
-
-- **Well-known figures** (10+ primary sources): Standard Skill (~4,500 tokens)
-- **Niche figures** (<10 primary sources): Extended Skill + key quotes archive (~8,000-10,000 tokens), ensuring accurate simulation even when the model doesn't recognize the person
+- **Well-known** (≥10 primary sources): ~4,500 tokens
+- **Niche** (<10 primary sources): ~8,000-10,000 tokens with key quotes archive
 
 ---
 
-### Output Structure
-
-```
-output/
-├── SKILL.md                    # The generated Perspective Skill
-└── research/
-    ├── 00-summary.md           # Source overview & quality assessment
-    ├── 01-writings.md          # Books, essays, long-form
-    ├── 02-interviews.md        # Podcasts, talks, interviews
-    ├── 03-social.md            # Twitter/X, social platforms
-    ├── 04-critics.md           # Criticism & counter-perspectives
-    ├── 05-decisions.md         # Key decisions & reasoning
-    ├── 06-timeline.md          # Life timeline & turning points
-    ├── synthesis-A.md          # Extraction track A
-    ├── synthesis-B.md          # Extraction track B
-    ├── cross-validation.md     # A vs B comparison
-    └── validation-report.md    # Adversarial test results
-```
-
-### Repository Structure
-
-```
-nuwa-openclaw-skill/
-├── SKILL.md                          # Nuwa core skill definition
-├── references/
-│   ├── extraction-framework.md       # Extraction methodology
-│   ├── skill-template.md             # Output template for generated skills
-│   └── perspectives-index.md         # Registry of distilled personas
-└── scripts/
-    └── search.sh                     # Fallback search script (ddgs + trafilatura)
-```
-
-### Requirements
-
-- [OpenClaw](https://github.com/openclaw/openclaw) agent runtime
-- Internet access (for research phase)
-- Python 3 + `ddgs` + `trafilatura` (auto-installed by fallback search script)
-
----
-
-### Acknowledgments
-
-Inspired by [nuwa-skill](https://github.com/alchaincyf/nuwa-skill) by [花叔 (Huashu)](https://github.com/alchaincyf) — the original Nuwa for Claude Code. This project adapts the methodology for [OpenClaw](https://github.com/openclaw/openclaw) with parallel sub-agent research, dual-track cross-validation, and adversarial testing.
-
-### Key Differences from the Original
+### Differences from the Original
 
 | | nuwa-skill (Claude Code) | nuwa-openclaw-skill (OpenClaw) |
 |---|---|---|
 | **Runtime** | Claude Code | OpenClaw |
 | **Research** | Sequential | 6 parallel sub-agents |
-| **Extraction** | Single track | Dual-track + cross-validation |
-| **Search** | Web search | 4-level cascade (Tavily → ddgs → browser → model) |
+| **Extraction** | Single pass | Dual-track + cross-validation |
+| **Search** | Web search | 4-level cascade |
 | **Validation** | Quality check | Adversarial testing with auto-retry |
+
+### Requirements
+
+- [OpenClaw](https://github.com/openclaw/openclaw) agent runtime
+- Internet access
+- Python 3 + `ddgs` + `trafilatura` (auto-installed)
+
+### Acknowledgments
+
+Methodology from [nuwa-skill](https://github.com/alchaincyf/nuwa-skill) by [花叔 (Huashu)](https://github.com/alchaincyf). We redesigned it for OpenClaw with parallel research, dual-track validation, and adversarial testing.
 
 ### License
 
-MIT — use it, modify it, build with it.
+MIT
 
-MIT License © Kyle Fu | Inspired by [nuwa-skill](https://github.com/alchaincyf/nuwa-skill) © [花叔 Huashu](https://github.com/alchaincyf)
+MIT License © Kyle Fu | Based on [nuwa-skill](https://github.com/alchaincyf/nuwa-skill) © [花叔 Huashu](https://github.com/alchaincyf)
